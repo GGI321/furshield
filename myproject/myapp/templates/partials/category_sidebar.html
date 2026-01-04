@@ -1,0 +1,21 @@
+<div class="w-full md:w-64 bg-base-100 rounded-xl shadow p-4">
+  <h3 class="text-lg font-bold mb-4">Categories</h3>
+
+  <ul class="menu bg-base-100 rounded-box">
+    <li>
+      <a href="{% url 'view_products' %}" class="font-semibold">
+        All Products
+      </a>
+    </li>
+
+    {% for category in categories %}
+    <li>
+      <a href="{% url 'category_products' category.id %}">
+        {{ category.name }}
+      </a>
+    </li>
+    {% empty %}
+    <li class="opacity-70">No categories</li>
+    {% endfor %}
+  </ul>
+</div>

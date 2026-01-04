@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load form_extras %}
+
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center bg-base-200 px-4 py-10">
+
+    <!-- CARD -->
+    <div class="card w-full max-w-md bg-base-100 shadow-xl rounded-3xl">
+
+        <!-- HEADER -->
+        <div class="card-body space-y-6">
+
+            <div class="text-center">
+                <h1 class="text-2xl font-bold">🐾 Add New Pet</h1>
+                <p class="text-sm opacity-70 mt-1">
+                    Enter your pet’s information
+                </p>
+            </div>
+
+            <!-- FORM -->
+            <form method="post" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+
+                <!-- IMAGE -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Pet Photo</span>
+                    </label>
+                    {{ form.image|add_class:"file-input file-input-bordered w-full" }}
+                </div>
+
+                <!-- PET NAME -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Pet Name</span>
+                    </label>
+                    {{ form.pet_name|add_class:"input input-bordered w-full" }}
+                </div>
+
+                <!-- TYPE -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Pet Type</span>
+                    </label>
+                    {{ form.pet_type|add_class:"input input-bordered w-full" }}
+                </div>
+
+                <!-- AGE -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Age</span>
+                    </label>
+                    {{ form.age|add_class:"input input-bordered w-full" }}
+                </div>
+
+                <!-- BREED -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Breed</span>
+                    </label>
+                    {{ form.breed|add_class:"input input-bordered w-full" }}
+                </div>
+
+                <!-- GENDER -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Gender</span>
+                    </label>
+                    {{ form.gender|add_class:"select select-bordered w-full" }}
+                </div>
+
+                <!-- SPECIAL NEEDS -->
+                <div class="form-control flex-row items-center gap-3">
+                    {{ form.special_needs }}
+                    <span class="text-sm">Special Needs</span>
+                </div>
+
+                <!-- BUTTON -->
+                <button type="submit"
+                        class="btn btn-primary w-full rounded-full text-lg shadow-md">
+                    ➕ Save Pet
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

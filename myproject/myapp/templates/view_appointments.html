@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>view appointments</h2>
+<div>
+    {% for appointment in appointments %}
+    <div class="appointment-card">
+        <h3>Appointment for {{ appointment.pet.pet_name }}</h3>
+        {% if appointment.pet.image %}
+        <img src="{{ appointment.pet.image.url }}" class="w-24 h-24 object-cover rounded-full">
+        {% endif %}
+        <p>Date & Time: {{ appointment.appointment_date }}</p>
+        <p>Reason: {{ appointment.reason }}</p>
+        <p>owner: {{ appointment.owner }}</p>
+        <p>vet: {{ appointment.vet }}</p>
+    </div>
+    {% empty %}
+    <p>No appointments scheduled.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="p-8 bg-base-200 min-h-screen">
+
+  <h1 class="text-center text-3xl font-bold mb-10">
+    Explore Products & Pets 🐾
+  </h1>
+
+  <!-- ================= PRODUCTS ================= -->
+  <div class="max-w-7xl mx-auto mb-16">
+    <h2 class="text-2xl font-semibold mb-6">Products</h2>
+    <h3 class="text-2xl font-semibold mb-6">check out our latest adoptable_pets and  toys,  accessories, pet foods  etc when you register with us</h3>
+
+ 
+
+  <!-- ================= ADOPTABLE PETS ================= -->
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-6">Adoptable Pets</h2>
+
+    {% if pets %}
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {% for pet in pets %}
+          <div class="card bg-base-100 shadow-lg text-center">
+            {% if pet.image %}
+              <figure>
+                <img src="{{ pet.image.url }}"
+                     alt="{{ pet.pet_name }}"
+                     class="h-48 w-full object-cover">
+              </figure>
+            {% endif %}
+
+            <div class="card-body">
+              <h3 class="card-title justify-center">{{ pet.pet_name }}</h3>
+              <p>{{ pet.pet_type }}{% if pet.age %} • {{ pet.age }} yrs{% endif %}</p>
+
+              {% if user.is_authenticated %}
+                <a href="{% url 'adopt_pet' pet.id %}" class="btn btn-success btn-sm mt-2">
+                  Adopt
+                </a>
+              {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline btn-sm mt-2">
+                  Login to Adopt
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No pets available for adoption.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- ================= ADD TO CART SCRIPT ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cartCount = document.getElementById("cart-count");
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+
+      if (btn.disabled) return;
+      btn.disabled = true;
+
+      const productId = btn.dataset.id;
+
+      const res = await fetch(`/cart/add/${productId}/`);
+      const data = await res.json();
+
+      if (data.success) {
+        cartCount.textContent = data.cart_count;
+        btn.textContent = "Added ✔";
+        setTimeout(() => {
+          btn.textContent = "Add to Cart";
+          btn.disabled = false;
+        }, 1200);
+      }
+    });
+  });
+
+});
+</script>
+
+{% endblock %}

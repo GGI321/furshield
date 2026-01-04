@@ -1,0 +1,154 @@
+{% load form_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account • FurShield</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100
+             flex items-center justify-center px-4 py-6">
+
+    <!-- REGISTER CARD -->
+    <div class="
+        w-full max-w-md
+        bg-white/80 backdrop-blur-xl
+        rounded-3xl
+        shadow-[0_25px_60px_rgba(0,0,0,0.15)]
+        p-8
+        animate-fade-in
+    ">
+
+        <!-- HEADER -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+                Create Account ✨
+            </h1>
+            <p class="text-sm text-gray-600 mt-2">
+                Join <span class="font-semibold">FurShield</span> and get started
+            </p>
+        </div>
+
+        <!-- NON FIELD ERRORS -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-error mb-6 text-sm rounded-xl">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <!-- FORM -->
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+
+            <!-- USERNAME -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">
+                        {{ form.username.label }}
+                    </span>
+                </label>
+                {{ form.username|add_class:"input input-bordered rounded-2xl w-full focus:ring-4 focus:ring-indigo-300" }}
+                {% for error in form.username.errors %}
+                    <p class="text-error text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">
+                        {{ form.email.label }}
+                    </span>
+                </label>
+                {{ form.email|add_class:"input input-bordered rounded-2xl w-full focus:ring-4 focus:ring-indigo-300" }}
+                {% for error in form.email.errors %}
+                    <p class="text-error text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- ROLE -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">
+                        Register as
+                    </span>
+                </label>
+
+                <div class="bg-base-100 border border-base-300 rounded-2xl p-4 space-y-2">
+                    {{ form.role }}
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Regular users can adopt pets & shop.<br>
+                        Vets and shelters get special dashboards.
+                    </p>
+                </div>
+
+                {% for error in form.role.errors %}
+                    <p class="text-error text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">
+                        {{ form.password1.label }}
+                    </span>
+                </label>
+                {{ form.password1|add_class:"input input-bordered rounded-2xl w-full focus:ring-4 focus:ring-indigo-300" }}
+                {% for error in form.password1.errors %}
+                    <p class="text-error text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">
+                        {{ form.password2.label }}
+                    </span>
+                </label>
+                {{ form.password2|add_class:"input input-bordered rounded-2xl w-full focus:ring-4 focus:ring-indigo-300" }}
+                {% for error in form.password2.errors %}
+                    <p class="text-error text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- BUTTON -->
+            <button
+                type="submit"
+                class="
+                    btn w-full
+                    rounded-2xl
+                    text-white
+                    font-bold
+                    text-lg
+                    bg-gradient-to-r from-indigo-600 to-purple-600
+                    hover:from-indigo-700 hover:to-purple-700
+                    active:scale-95
+                    shadow-lg
+                    transition-all duration-300
+                "
+            >
+                Register
+            </button>
+        </form>
+
+        <!-- FOOTER -->
+        <div class="text-center mt-6 text-sm text-gray-600">
+            Already have an account?
+            <a href="{% url 'login' %}"
+               class="font-semibold text-indigo-600 hover:underline">
+                Login
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

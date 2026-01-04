@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 px-4 py-8">
+  <div class="max-w-5xl mx-auto space-y-6">
+
+    <h1 class="text-3xl font-bold">
+      👨‍⚕️ Vet Dashboard
+    </h1>
+
+    <a href="{% url 'edit_vet_profile' %}" class="btn btn-outline rounded-full">
+      ✏️ Edit Profile
+    </a>
+
+    <div class="grid gap-4 mt-6">
+      {% for appointment in request.user.vet_appointments.all %}
+      <div class="card bg-base-100 shadow rounded-2xl">
+        <div class="card-body">
+
+          <h3 class="font-semibold">
+            {{ appointment.pet.pet_name }}
+          </h3>
+
+          <p class="opacity-70">
+            {{ appointment.appointment_date }}
+          </p>
+
+          <div class="flex gap-3 mt-3">
+            {% if appointment.consultation %}
+              <a href="{% url 'view_consultation' appointment.id %}" class="btn btn-sm btn-primary">
+                View Consultation
+              </a>
+            {% else %}
+              <a href="{% url 'add_consultation' appointment.id %}" class="btn btn-sm btn-outline">
+                Add Consultation
+              </a>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <p class="opacity-60">No appointments yet.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="padding: 20px; background: #f4f6f8; min-height: 100vh;">
+
+    <h1 style="text-align:center; margin-bottom:30px;">
+        Welcome 👋
+    </h1>
+
+    <!-- 🛒 PRODUCTS SECTION -->
+    <div style="max-width:1100px; margin:0 auto 50px auto;">
+        <h2 style="margin-bottom:15px;">Shop Products</h2>
+
+        {% if products %}
+            <div style="
+                display:grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap:20px;
+            ">
+                {% for product in products %}
+                    <div style="
+                        background:white;
+                        border-radius:10px;
+                        padding:15px;
+                        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+                        text-align:center;
+                    ">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 alt="{{ product.name }}"
+                                 style="width:100%; height:150px; object-fit:cover; border-radius:8px;">
+                        {% endif %}
+
+                        <h3 style="margin:10px 0;">{{ product.name }}</h3>
+                        <p>${{ product.price }}</p>
+
+                        <a href="{% url 'product_detail' product.id %}"
+                           style="
+                               display:inline-block;
+                               margin-top:10px;
+                               padding:8px 12px;
+                               background:#2563eb;
+                               color:white;
+                               text-decoration:none;
+                               border-radius:5px;
+                           ">
+                            View Product
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No products available.</p>
+        {% endif %}
+    </div>
+
+    <!-- 🐾 ADOPTABLE PETS SECTION -->
+    <div style="max-width:1100px; margin:0 auto;">
+        <h2 style="margin-bottom:15px;">Adopt a Pet</h2>
+
+        {% if pets %}
+            <div style="
+                display:grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap:20px;
+            ">
+                {% for pet in pets %}
+                    <div style="
+                        background:white;
+                        border-radius:10px;
+                        padding:15px;
+                        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+                        text-align:center;
+                    ">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}"
+                                 alt="{{ pet.pet_name }}"
+                                 style="width:100%; height:150px; object-fit:cover; border-radius:8px;">
+                        {% endif %}
+
+                        <h3 style="margin:10px 0;">{{ pet.pet_name }}</h3>
+                        <p>
+                            {{ pet.pet_type }}
+                            {% if pet.age %} • {{ pet.age }} yrs{% endif %}
+                        </p>
+
+                        <a href="{% url 'adoptable_pets' %}"
+                           style="
+                               display:inline-block;
+                               margin-top:10px;
+                               padding:8px 12px;
+                               background:#059669;
+                               color:white;
+                               text-decoration:none;
+                               border-radius:5px;
+                           ">
+                            View Pets
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No pets available for adoption right now.</p>
+        {% endif %}
+    </div>
+    {% if not user.is_authenticated %}
+<div style="
+    max-width:1100px;
+    margin:0 auto 40px auto;
+    padding:20px;
+    background:#e0f2fe;
+    border:1px solid #bae6fd;
+    border-radius:12px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+">
+    <div>
+        <h2 style="margin:0 0 5px 0;">Want to adopt or buy?</h2>
+        <p style="margin:0;">
+            Login or create an account to adopt pets, purchase products,
+            and manage your profile.
+        </p>
+    </div>
+
+    <div>
+        <a href="{% url 'login' %}"
+           style="
+               padding:10px 18px;
+               background:#2563eb;
+               color:white;
+               text-decoration:none;
+               border-radius:6px;
+               margin-right:10px;
+               display:inline-block;
+           ">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}"
+           style="
+               padding:10px 18px;
+               background:#16a34a;
+               color:white;
+               text-decoration:none;
+               border-radius:6px;
+               display:inline-block;
+           ">
+            Register
+        </a>
+    </div>
+</div>
+{% endif %}
+
+
+</div>
+
+{% endblock %}

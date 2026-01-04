@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex items-center justify-center px-4 py-8">
+
+    <div class="w-full max-w-md">
+
+        <!-- CARD -->
+        <div class="card bg-base-100 shadow-xl rounded-3xl overflow-hidden">
+
+            <!-- IMAGE -->
+            {% if product.image %}
+            <figure class="relative">
+                <img 
+                    src="{{ product.image.url }}" 
+                    alt="{{ product.name }}"
+                    class="w-full h-64 object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            </figure>
+            {% endif %}
+
+            <!-- CONTENT -->
+            <div class="card-body p-6">
+
+                <!-- TITLE -->
+                <h2 class="text-2xl font-bold tracking-tight">
+                    {{ product.name }}
+                </h2>
+
+                <!-- PRICE -->
+                <p class="text-xl font-semibold text-primary mt-1">
+                    ₦{{ product.price }}
+                </p>
+
+                <!-- DESCRIPTION -->
+                <p class="text-sm leading-relaxed opacity-80 mt-4">
+                    {{ product.description }}
+                </p>
+
+                <!-- STOCK -->
+                <div class="mt-4 flex items-center justify-between text-sm">
+                    <span class="opacity-70">Available stock</span>
+                    <span class="badge badge-outline badge-primary">
+                        {{ product.stock_quantity }}
+                    </span>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="mt-6">
+                    <a href="{% url 'view_products' %}"
+                       class="btn btn-outline btn-primary rounded-full w-full">
+                        ← Back to Products
+                    </a>
+                </div>
+               
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

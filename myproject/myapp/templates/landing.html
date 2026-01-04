@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align:center; padding:60px;">
+    <h1>Welcome to FurShield 🐾</h1>
+    <p>Pet care, adoption, and health management — all in one place.</p>
+
+    <div style="margin-top:30px;">
+        <a href="{% url 'explore' %}">Browse Products & Pets</a>
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    </div>
+</div>
+{% endblock %}

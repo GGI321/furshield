@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+
+        <!-- CARD -->
+        <div class="card bg-base-100 shadow-xl rounded-3xl">
+
+            <div class="card-body space-y-6">
+
+                <!-- HEADER -->
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold">
+                        Upload Health Record
+                    </h2>
+                    <p class="text-sm opacity-70 mt-1">
+                        {{ pet.pet_name }}’s medical documents
+                    </p>
+                </div>
+
+                <!-- INFO -->
+                <div class="alert alert-info text-sm">
+                    📄 Upload PDFs, Excel, CSV, or any medical file related to your pet.
+                </div>
+
+                <!-- FORM -->
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      class="space-y-4">
+
+                    {% csrf_token %}
+
+                    <!-- FILE INPUT -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-semibold">
+                                Select File
+                            </span>
+                        </label>
+
+                        <input
+                            type="file"
+                            name="document"
+                            required
+                            class="file-input file-input-bordered file-input-primary w-full rounded-xl"
+                        >
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="pt-2 space-y-3">
+                        <button type="submit"
+                                class="btn btn-primary w-full rounded-full text-lg">
+                            ⬆ Upload Document
+                        </button>
+
+                        <a href="{% url 'view_pet' pet.id %}"
+                           class="btn btn-outline w-full rounded-full">
+                            ⬅ Back to Pet
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- FOOTER SPACING -->
+        <div class="h-8"></div>
+
+    </div>
+</div>
+
+{% endblock %}

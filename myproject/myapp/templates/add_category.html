@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load form_tags %}
+
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex items-center justify-center px-4 py-6">
+
+    <div class="w-full max-w-md">
+
+        <!-- CARD -->
+        <div class="card bg-base-100 shadow-xl rounded-3xl">
+
+            <div class="card-body space-y-6">
+
+                <!-- TITLE -->
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold">
+                        Add New Category
+                    </h2>
+                    <p class="opacity-70 mt-1 text-sm">
+                        Create a category and upload an image
+                    </p>
+                </div>
+
+                <!-- FORM -->
+                <form method="post" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+
+                    <!-- CATEGORY NAME -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-medium">
+                                Category Name
+                            </span>
+                        </label>
+                        {{ form.name|add_class:"input input-bordered rounded-xl w-full" }}
+                    </div>
+
+                    <!-- CATEGORY IMAGE -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-medium">
+                                Category Image
+                            </span>
+                        </label>
+                        {{ form.image|add_class:"file-input file-input-bordered rounded-xl w-full" }}
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <button type="submit" class="btn btn-primary rounded-full w-full mt-2">
+                        ➕ Add Category
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

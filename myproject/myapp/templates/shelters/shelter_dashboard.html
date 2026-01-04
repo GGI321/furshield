@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 p-6">
+    <div class="max-w-6xl mx-auto">
+
+        <h1 class="text-3xl font-bold mb-6">🏠 Shelter Dashboard</h1>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex flex-wrap gap-4 mb-8">
+            <a href="{% url 'shelter_add_pet' %}" class="btn btn-primary">
+                ➕ Add Adoptable Pet
+            </a>
+            <a href="{% url 'add_product' %}" class="btn btn-secondary">
+                ➕ Add Product
+            </a>
+        </div>
+
+        <!-- PET LIST -->
+        <h2 class="text-xl font-semibold mb-4">🐾 Adoptable Pets</h2>
+
+        {% if pets %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for pet in pets %}
+                    <div class="card bg-base-100 shadow rounded-2xl">
+                        <div class="card-body">
+
+                            {% if pet.image %}
+                                <img src="{{ pet.image.url }}"
+                                     class="w-full h-40 object-cover rounded-xl mb-3">
+                            {% endif %}
+
+                            <h3 class="font-bold text-lg">
+                                {{ pet.pet_name }}
+                            </h3>
+
+                            <p class="text-sm opacity-70">
+                                {{ pet.pet_type }} · {{ pet.age }} yrs
+                            </p>
+
+                            <div class="flex gap-2 mt-4">
+                                <a href="{% url 'shelter_edit_pet' pet.id %}"
+                                   class="btn btn-sm btn-outline">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'shelter_delete_pet' pet.id %}"
+                                   class="btn btn-sm btn-error">
+                                    Delete
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="opacity-60">No adoptable pets yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

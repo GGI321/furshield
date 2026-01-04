@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex justify-center">
+    <div class="w-full max-w-md px-4 py-6">
+
+        <!-- PET CARD -->
+        <div class="card bg-base-100 shadow-lg rounded-3xl overflow-hidden">
+
+            <!-- IMAGE / AVATAR -->
+            <div class="flex justify-center mt-6">
+                {% if pet.image %}
+                    <img src="{{ pet.image.url }}"
+                         class="w-32 h-32 rounded-full object-cover shadow-md">
+                {% else %}
+                    <div class="w-32 h-32 rounded-full bg-primary text-primary-content flex items-center justify-center text-5xl shadow-md">
+                        🐾
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- CONTENT -->
+            <div class="card-body p-6 space-y-4">
+
+                <!-- NAME -->
+                <div class="text-center">
+                    <h1 class="text-2xl font-bold">
+                        {{ pet.pet_name }}
+                    </h1>
+                    <p class="text-sm opacity-70 mt-1">
+                        {{ pet.pet_type }}
+                    </p>
+                </div>
+
+                <!-- DETAILS -->
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="opacity-70">Age</span>
+                        <span class="font-medium">{{ pet.age }} years</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="opacity-70">Breed</span>
+                        <span class="font-medium">
+                            {{ pet.breed|default:"Not specified" }}
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="opacity-70">Gender</span>
+                        <span class="font-medium">{{ pet.gender }}</span>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="space-y-3 pt-4">
+
+                    <a href="{% url 'update_pet' pet.id %}"
+                       class="btn btn-outline btn-sm rounded-full w-full">
+                        ✏ Edit Pet
+                    </a>
+
+                    <a href="{% url 'delete_pet' pet.id %}"
+                       class="btn btn-outline btn-error btn-sm rounded-full w-full">
+                        🗑 Delete Pet
+                    </a>
+
+                    {% if pet.health_records.exists %}
+                        <a href="{% url 'view_health_record' pet.health_records.first.id %}"
+                           class="btn btn-primary btn-sm rounded-full w-full">
+                            🩺 View Health Record
+                        </a>
+                    {% else %}
+                        <div class="text-center text-xs opacity-60">
+                            No health records yet
+                        </div>
+                        
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BACK BUTTON -->
+        <div class="mt-6">
+            <a href="{% url 'owner_dashboard' %}"
+               class="btn btn-ghost btn-sm w-full rounded-full">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

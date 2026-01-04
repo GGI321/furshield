@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4">💊 Add Prescription</h2>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn btn-primary w-full">
+            Save Prescription
+        </button>
+    </form>
+</div>
+
+{% endblock %}

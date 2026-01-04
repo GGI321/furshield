@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex justify-center">
+    <div class="w-full max-w-md px-4 py-6">
+
+        <!-- HEADER -->
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold leading-tight">
+                👋 Hi {{ user.username }}
+            </h1>
+            <p class="text-sm opacity-70 mt-1">
+                Manage your pets and health records
+            </p>
+        </div>
+
+        <!-- PET LIST -->
+        <div class="space-y-4">
+
+            {% for pet in pets %}
+            <div class="card bg-base-100 shadow-md rounded-3xl overflow-hidden">
+
+                <div class="card-body p-4 space-y-4">
+
+                    <!-- PET HEADER -->
+                    <div class="flex items-center gap-3">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}"
+                                 class="w-12 h-12 rounded-full object-cover shrink-0">
+                        {% else %}
+                            <div class="w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center text-xl shrink-0">
+                                🐾
+                            </div>
+                        {% endif %}
+
+                        <div class="min-w-0">
+                            <h2 class="font-semibold text-base truncate">
+                                {{ pet.pet_name }}
+                            </h2>
+                            <p class="text-xs opacity-70 truncate">
+                                {{ pet.pet_type }} • {{ pet.age }} yrs
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="grid grid-cols-3 gap-2">
+
+                        <a href="{% url 'view_pet' pet.id %}"
+                           class="btn btn-outline btn-xs rounded-full">
+                            View
+                        </a>
+
+                        <a href="{% url 'update_pet' pet.id %}"
+                           class="btn btn-outline btn-xs rounded-full">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'delete_pet' pet.id %}"
+                           class="btn btn-outline btn-error btn-xs rounded-full">
+                            Delete
+                        </a>
+
+                        <a href="{% url 'schedule_appointment' pet.id %}"
+                           class="btn btn-primary btn-sm rounded-full col-span-3 mt-2">
+                            📅 Schedule Appointment
+                        </a>
+
+                        {% if user.profile.role == 'vet' %}
+                        <a href="{% url 'add_health_record' pet.id %}"
+                           class="btn btn-primary btn-sm rounded-full col-span-3 mt-2">
+                            ➕ Add Health Record
+                        </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {% empty %}
+            <!-- EMPTY STATE -->
+            <div class="text-center py-20">
+                <div class="text-6xl mb-4">🐶</div>
+                <p class="font-medium text-lg">
+                    No pets yet
+                </p>
+                <p class="text-sm opacity-70 mt-1">
+                    Add your first pet to get started
+                </p>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- FLOATING ACTION BUTTON -->
+        <a href="{% url 'add_pet' %}"
+           class="btn btn-primary btn-lg fixed bottom-6 right-6 shadow-xl">
+            + add pet
+        </a>
+
+       
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-md mx-auto">
+  <div class="card bg-base-100 shadow">
+    <div class="card-body text-center">
+      <h2 class="text-lg font-bold">
+        Delete Care Item
+      </h2>
+
+      <p class="mt-2">
+        Are you sure you want to delete
+        <strong>{{ care_item.title }}</strong>?
+      </p>
+
+      <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <button class="btn btn-error w-full">
+          Yes, Delete
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

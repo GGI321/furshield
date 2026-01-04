@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login • FurShield</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100
+             flex items-center justify-center px-4">
+
+    <!-- LOGIN CARD -->
+    <div class="
+        w-full max-w-sm
+        bg-white/80 backdrop-blur-xl
+        rounded-3xl
+        shadow-[0_25px_60px_rgba(0,0,0,0.15)]
+        p-8
+        animate-fade-in
+    ">
+
+        <!-- LOGO / TITLE -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
+                Welcome Back 👋
+            </h2>
+            <p class="text-sm text-gray-600 mt-2">
+                Sign in to continue to <span class="font-semibold">FurShield</span>
+            </p>
+        </div>
+
+        <!-- FORM -->
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+
+            <!-- USERNAME -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">Username</span>
+                </label>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Enter your username"
+                    required
+                    class="
+                        input input-bordered
+                        rounded-2xl
+                        w-full
+                        focus:outline-none
+                        focus:ring-4 focus:ring-indigo-300
+                        transition
+                    "
+                >
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-semibold">Password</span>
+                </label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                    class="
+                        input input-bordered
+                        rounded-2xl
+                        w-full
+                        focus:outline-none
+                        focus:ring-4 focus:ring-indigo-300
+                        transition
+                    "
+                >
+            </div>
+
+            <!-- BUTTON -->
+            <button
+                type="submit"
+                class="
+                    btn w-full
+                    rounded-2xl
+                    text-white
+                    font-bold
+                    text-lg
+                    bg-gradient-to-r from-indigo-600 to-purple-600
+                    hover:from-indigo-700 hover:to-purple-700
+                    active:scale-95
+                    shadow-lg
+                    transition-all duration-300
+                "
+            >
+                Login
+            </button>
+        </form>
+
+        <!-- FOOTER -->
+        <div class="text-center mt-6 text-sm text-gray-600">
+            Don’t have an account?
+            <a href="{% url 'register' %}" class="font-semibold text-indigo-600 hover:underline">
+                Register
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

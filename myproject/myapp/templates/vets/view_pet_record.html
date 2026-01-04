@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Health Records</h2>
+
+{% if records.exists %}
+    {% for record in records %}
+        <div>
+            <p>Date: {{ record.date }}</p>
+            <p>Diagnosis: {{ record.diagnosis }}</p>
+            {% if record.vet == request.user and record.owner == request.user %}
+            <a href="{% url 'view_health_record' record.id %}">
+                View Record
+            </a>
+            <a href="{% url 'delete_health_record' record.id %}">
+                Delete Record
+            </a>
+            <a href="{% url 'edit_health_record' record.id %}">edit record</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No health records yet.</p>
+{% endif %}
+<a href="{% url 'add_health_record' pet.id %}">Add Health Record</a>
+{% endblock %}

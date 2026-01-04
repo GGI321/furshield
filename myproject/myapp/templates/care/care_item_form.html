@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-xl mx-auto">
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="text-xl font-bold mb-4">
+        {{ title }} for {{ pet.pet_name }}
+      </h2>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-4">
+          {{ form.category.label_tag }}
+          {{ form.category }}
+        </div>
+
+        <div class="mb-4">
+          {{ form.title.label_tag }}
+          {{ form.title }}
+        </div>
+
+        <div class="mb-4">
+          {{ form.frequency.label_tag }}
+          {{ form.frequency }}
+        </div>
+
+        <div class="mb-4">
+          {{ form.description.label_tag }}
+          {{ form.description }}
+        </div>
+
+        <button class="btn btn-primary w-full">
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

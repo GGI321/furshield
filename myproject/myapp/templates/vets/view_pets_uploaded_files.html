@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="min-h-screen bg-base-200 flex justify-center">
+    <div class="w-full max-w-md px-4 py-6">
+
+        <div class="card bg-base-100 shadow-lg rounded-3xl overflow-hidden">
+
+            <div class="card-body p-6 text-center">
+
+                <h2 class="text-2xl font-bold mb-4">
+                    here are the pet files you uploaded for record sake
+                </h2>
+
+                <p class="mb-6">
+                    These are the uploaded files for this pet.
+                </p>
+
+                <div class="space-y-4">
+                    {% for document in documents %}
+                        <div class="card bg-base-200 p-4 rounded-2xl flex justify-between items-center">
+                            <a href="{{ document.document.url }}"
+                               class="text-primary underline"
+                               target="_blank">
+                                {{ document.document.name|slice:"15:" }}
+                            </a>
+                            <span class="text-sm opacity-70">
+                                Uploaded on {{ document.uploaded_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                    {% empty %}
+                        <p class="text-sm opacity-70">
+                            No files have been uploaded for this pet.
+                        </p>
+                    {% endfor %}
+
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 flex items-center justify-center px-4">
+    <div class="card bg-base-100 shadow-xl rounded-3xl w-full max-w-lg">
+        <div class="card-body">
+
+            <h2 class="text-2xl font-bold text-center mb-2">
+                🩺 Edit Vet Profile
+            </h2>
+
+            <p class="text-center text-sm opacity-70 mb-4">
+                Update your professional details
+            </p>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    {{ form.bio.label_tag }}
+                    {{ form.bio }}
+                </div>
+
+                <div class="form-control">
+                    {{ form.years_of_experience.label_tag }}
+                    {{ form.years_of_experience }}
+                </div>
+
+                <div class="form-control">
+                    {{ form.clinic_name.label_tag }}
+                    {{ form.clinic_name }}
+                </div>
+
+                <div class="form-control">
+                    {{ form.phone_number.label_tag }}
+                    {{ form.phone_number }}
+                </div>
+
+                <div class="form-control">
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                </div>
+
+                <div class="form-control flex-row items-center gap-3">
+                    {{ form.available }}
+                    <span class="text-sm">Available for appointments</span>
+                </div>
+
+                <button class="btn btn-primary w-full rounded-full mt-4">
+                    💾 Save Profile
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

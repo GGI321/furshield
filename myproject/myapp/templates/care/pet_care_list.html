@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-5xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">
+      {{ pet.pet_name }} – Care Plan
+    </h2>
+
+    <a href="{% url 'add_care_item' pet.id %}"
+       class="btn btn-primary btn-sm">
+      + Add Care Item
+    </a>
+  </div>
+
+  {% if care_items %}
+    <div class="grid gap-4">
+      {% for item in care_items %}
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <div class="flex justify-between">
+            <div>
+              <h3 class="font-semibold text-lg">
+                {{ item.title }}
+              </h3>
+              <p class="text-sm opacity-70">
+                {{ item.category.name }} • {{ item.frequency }}
+              </p>
+              <p class="mt-2">
+                {{ item.description }}
+              </p>
+            </div>
+
+            <div class="flex gap-2">
+              <a href="{% url 'edit_care_item' item.id %}"
+                 class="btn btn-xs btn-outline">
+                Edit
+              </a>
+              <a href="{% url 'delete_care_item' item.id %}"
+                 class="btn btn-xs btn-error">
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="opacity-70">No care items added yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

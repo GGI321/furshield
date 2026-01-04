@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 px-4 py-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="card bg-base-100 shadow-xl rounded-3xl">
+      <div class="card-body">
+        <h2 class="text-2xl font-bold">
+          📋 Consultation Summary
+        </h2>
+
+        <p class="opacity-70">
+          Pet: <strong>{{ consultation.appointment.pet.pet_name }}</strong> |
+          Date: {{ consultation.created_at|date:"M d, Y" }}
+        </p>
+
+        <hr>
+
+        <h3 class="font-semibold">Symptoms</h3>
+        <p>{{ consultation.symptoms }}</p>
+
+        <h3 class="font-semibold mt-4">Diagnosis</h3>
+        <p>{{ consultation.diagnosis }}</p>
+
+        <h3 class="font-semibold mt-4">Treatment</h3>
+        <p>{{ consultation.treatment }}</p>
+
+        <h3 class="font-semibold mt-4">Follow-up</h3>
+        <p>{{ consultation.follow_up|default:"No follow-up required" }}</p>
+      </div>
+    </div>
+
+    <!-- PRESCRIPTIONS -->
+    <div class="card bg-base-100 shadow-xl rounded-3xl">
+      <div class="card-body">
+        <h3 class="text-xl font-bold">💊 Prescriptions</h3>
+
+      <!-- PRESCRIPTIONS -->
+<div class="mt-8">
+    <h3 class="text-xl font-semibold mb-3">💊 Prescriptions</h3>
+
+    {% if consultation.prescriptions.all %}
+        <div class="space-y-3">
+            {% for prescription in consultation.prescriptions.all %}
+                <div class="card bg-base-100 shadow p-4 rounded-xl">
+                    <p class="font-semibold">
+                        {{ prescription.medication_name }}
+                    </p>
+                    <p class="text-sm opacity-70">
+                        Dosage: {{ prescription.dosage }}
+                    </p>
+                    <p class="text-sm opacity-70">
+                        Frequency: {{ prescription.frequency }}
+                    </p>
+                    <p class="text-sm opacity-70">
+                        Duration: {{ prescription.duration }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="opacity-60">No prescriptions added yet.</p>
+    {% endif %}
+
+    {% if user.profile.role == 'vet' %}
+        <a href="{% url 'add_prescription' consultation.id %}"
+           class="btn btn-outline btn-sm mt-3">
+            ➕ Add Prescription
+        </a>
+    {% endif %}
+</div>
+
+      </div>
+    </div>
+
+    <!-- LAB RESULTS -->
+    <!-- LAB RESULTS -->
+<div class="mt-6">
+    <h3 class="text-xl font-semibold mb-3">🧪 Lab Results</h3>
+
+    {% if consultation.lab_results.all %}
+        <ul class="space-y-3">
+            {% for lab in consultation.lab_results.all %}
+                <li class="card bg-base-100 shadow p-4 rounded-xl">
+                    <p class="font-semibold">{{ lab.test_name }}</p>
+                    <p class="text-sm opacity-70">{{ lab.result }}</p>
+
+                    {% if lab.file %}
+                        <a href="{{ lab.file.url }}"
+                           class="link link-primary text-sm"
+                           target="_blank">
+                            📎 View Attachment
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="opacity-60">No lab results yet.</p>
+    {% endif %}
+
+    {% if user.profile.role == 'vet' %}
+        <a href="{% url 'add_lab_result' consultation.id %}"
+           class="btn btn-outline btn-sm mt-3">
+            ➕ Add Lab Result
+        </a>
+    {% endif %}
+</div>
+
+
+  </div>
+</div>
+
+{% endblock %}

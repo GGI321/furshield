@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-6">Your Cart</h2>
+
+  {% if cart %}
+    {% for key, item in cart.items %}
+    <div class="flex justify-between items-center bg-base-100 p-4 mb-4 rounded-xl shadow">
+
+      <div class="flex items-center gap-4">
+        <img src="{{ item.image }}" class="w-16 h-16 rounded-lg object-cover">
+        <div>
+          <h3 class="font-semibold">{{ item.name }}</h3>
+          <p class="text-sm opacity-70">${{ item.price }} each</p>
+          <p class="text-sm font-semibold">
+            Subtotal: ${{ item.subtotal }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="btn btn-xs btn-outline decrease-btn"
+          data-id="{{ key }}"
+        >➖</button>
+
+        <span id="qty-{{ key }}" class="font-bold">
+          {{ item.quantity }}
+        </span>
+
+        <button
+          type="button"
+          class="btn btn-xs btn-outline increase-btn"
+          data-id="{{ key }}"
+        >➕</button>
+      </div>
+
+    </div>
+    {% endfor %}
+
+    <!-- GRAND TOTAL -->
+    <div class="bg-base-100 p-6 rounded-xl shadow mt-6">
+      <div class="flex justify-between text-lg font-bold">
+        <span>Grand Total</span>
+        <span id="grand-total">${{ total }}</span>
+      </div>
+
+      <a href="{% url 'checkout' %}" class="btn btn-primary mt-4 w-full">
+        Proceed to Checkout
+      </a>
+    </div>
+
+  {% else %}
+    <p class="opacity-70">Your cart is empty.</p>
+  {% endif %}
+</div>
+
+<!-- ✅ FIXED, PROFESSIONAL CART SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cartCount = document.getElementById("cart-count");
+  const grandTotal = document.getElementById("grand-total");
+
+  // INCREASE
+  document.querySelectorAll(".increase-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+
+      if (btn.disabled) return;
+      btn.disabled = true;
+
+      const id = btn.dataset.id;
+
+      const res = await fetch(`/cart/increase/${id}/`);
+      const data = await res.json();
+
+      document.getElementById(`qty-${id}`).textContent = data.quantity;
+      cartCount.textContent = data.cart_count;
+      grandTotal.textContent = `$${data.total}`;
+
+      btn.disabled = false;
+    });
+  });
+
+  // DECREASE
+  document.querySelectorAll(".decrease-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+
+      if (btn.disabled) return;
+      btn.disabled = true;
+
+      const id = btn.dataset.id;
+
+      const res = await fetch(`/cart/decrease/${id}/`);
+      const data = await res.json();
+
+      cartCount.textContent = data.cart_count;
+      grandTotal.textContent = `$${data.total}`;
+
+      // If item was removed → reload
+      if (!document.getElementById(`qty-${id}`) || data.cart_count === 0) {
+        location.reload();
+      } else {
+        // 🔑 DO NOT subtract manually
+        // Just reload to stay perfectly in sync
+        location.reload();
+      }
+    });
+  });
+
+});
+</script>
+
+
+{% endblock %}

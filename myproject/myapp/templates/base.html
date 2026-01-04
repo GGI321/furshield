@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FurShield</title>
+
+  <!-- Tailwind + DaisyUI -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/daisyui@5"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-base-100 text-base-content">
+
+<div class="drawer lg:drawer-open">
+
+  <!-- MOBILE DRAWER TOGGLE -->
+  <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+  <!-- MAIN CONTENT -->
+  <div class="drawer-content flex flex-col min-h-screen">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar bg-base-100 shadow-sm px-4">
+
+      <!-- Mobile Hamburger -->
+      <div class="flex-none lg:hidden">
+        <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+          ☰
+        </label>
+      </div>
+
+      <!-- Brand -->
+      <div class="flex-1">
+        <a href="{% url 'home' %}" class="text-xl font-extrabold tracking-tight">
+          FurShield
+        </a>
+      </div>
+
+      <!-- NAV ACTIONS -->
+      <div class="flex items-center gap-2 sm:gap-3">
+
+        {% if user.is_authenticated %}
+
+          <!-- 🐾 OWNER DASHBOARD -->
+          {% if user.profile.role == 'owner' and user.profile.is_active_owner %}
+            <!-- Desktop -->
+            <a href="{% url 'owner_dashboard' %}"
+               class="btn btn-outline btn-sm rounded-full hidden sm:inline-flex">
+              My Pets
+            </a>
+            <a href="{% url 'adoptable_pets' %}"
+               class="btn btn-outline btn-sm rounded-full hidden sm:inline-flex">
+              Adoptable Pets
+            </a>
+
+            <!-- Mobile -->
+            <a href="{% url 'owner_dashboard' %}"
+               class="btn btn-ghost btn-circle sm:hidden"
+               title="My Pets">
+              🐾
+            </a>
+            <a href="{% url 'adoptable_pets' %}"
+               class="btn btn-ghost btn-circle sm:hidden"
+               title="Adoptable Pets">
+              🐶
+            </a>
+          {% endif %}
+
+          <!-- CATEGORY ACTION -->
+          {% if user.profile.role in 'owner vet shelter' %}
+            <a href="{% url 'add_category' %}"
+               class="btn btn-primary btn-sm rounded-full hidden sm:inline-flex">
+              Add Category
+            </a>
+          {% else %}
+            <a href="{% url 'view_categories' %}"
+               class="btn btn-primary btn-sm rounded-full hidden sm:inline-flex">
+              Categories
+            </a>
+          {% endif %}
+
+        {% endif %}
+
+        <!-- CART -->
+        <a href="{% url 'cart' %}" class="btn btn-outline btn-sm relative">
+          Cart
+          <span
+            id="cart-count"
+            class="badge badge-primary absolute -top-2 -right-2 text-xs"
+          >
+            {{ request.session.cart|length|default:"0" }}
+          </span>
+        </a>
+
+        <!-- AUTH -->
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="btn btn-ghost btn-sm">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-ghost btn-sm">
+            Login
+          </a>
+        {% endif %}
+
+      </div>
+    </header>
+    <!-- =============== END NAVBAR =============== -->
+
+    <!-- PAGE CONTENT -->
+    <main class="flex-1 p-4 sm:p-6">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+
+  <!-- ================= SIDEBAR ================= -->
+  <div class="drawer-side">
+    <label for="sidebar-drawer" class="drawer-overlay"></label>
+
+    <aside class="w-72 bg-base-200 min-h-full p-5">
+      {% include 'partials/category_sidebar.html' %}
+    </aside>
+  </div>
+
+</div>
+
+</body>
+</html>

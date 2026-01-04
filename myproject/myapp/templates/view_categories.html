@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-base-200 px-4 py-6">
+
+    <!-- PAGE TITLE -->
+    <div class="max-w-6xl mx-auto mb-6 text-center">
+        <h2 class="text-3xl font-bold">Categories</h2>
+        <p class="opacity-70 mt-1">
+            Browse available pet categories
+        </p>
+    </div>
+
+    <!-- GRID -->
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+        {% for category in categories %}
+        <div class="card bg-base-100 shadow-lg rounded-3xl overflow-hidden transition hover:scale-[1.02]">
+
+            <!-- IMAGE -->
+            {% if category.image %}
+            <a href="{% url 'category_products' category.id %}" class="block">
+                <div class="card bg-base-100 shadow-md rounded-2xl p-4 hover:shadow-xl transition">
+                    <img src="{{ category.image.url }}" class="w-full h-40 object-cover rounded-xl mb-3">
+                    <h3 class="text-lg font-semibold text-center">
+                        {{ category.name }}
+                    </h3>
+                </div>
+            </a>
+
+            {% endif %}
+
+
+
+            <!-- CONTENT -->
+            <div class="card-body text-center ">
+                <div class="mt-4">
+                    <button class="btn btn-primary btn-sm rounded-full w-full">
+                        <a href="{% url 'add_product' %}">Add Product</a>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center opacity-70">
+            <p>No categories available.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
